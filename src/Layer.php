@@ -7,7 +7,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 
 class Layer{
-	
+
+	// Joswide\Canvas instance
 	private $canvas;
 	protected $params = [];
 	

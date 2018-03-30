@@ -1,5 +1,5 @@
 {
-    "name": "joswide/canvas",
+    "name": "joswide/php-canvas",
     "type": "library",
     "require": {
         "intervention/image": "^2.4"
