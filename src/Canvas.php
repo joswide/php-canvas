@@ -63,6 +63,13 @@ class Canvas{
 		return $this->layers;
 	}
 	
+	/**
+	*
+	*	Initialize Intervention\Image with image size and background color
+	*
+	*
+	*
+	*/
 	public function init(){
 		//$this->img = Image::canvas($this->width, $this->height, $this->backgroundColor);
 		$this->img = Image::canvas($this->width, $this->height, $this->backgroundColor);
@@ -70,10 +77,21 @@ class Canvas{
 		return $this;
 	}
 	
+	/**
+	*
+	*	Returns the Intervention\Image instance
+	*
+	*
+	*/
 	public function getImage(){
 		return $this->img;
 	}
 	
+	/**
+	*
+	*	Initialize canvas and apply all defined layers
+	*
+	*/
 	public function do(){
 		$this->init();
 		
@@ -82,7 +100,18 @@ class Canvas{
 		}
 	}
 	
-	public function output(){
+	/**
+	*
+	*	Output the image in the requested format
+	*
+	*
+	*	Supported formats: JPEG	PNG	GIF	TIF	BMP	ICO	PSD	WebP
+	*	See: http://image.intervention.io/getting_started/formats
+	*
+	*	GD extension only support the next formats: JPEG PNG GIF WebP
+	*
+	*/
+	public function output($format = 'png'){
 		return $this->img->response('png');
 	}
 	
