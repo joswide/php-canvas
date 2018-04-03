@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Joswide\Canvas;
@@ -21,11 +20,32 @@ class Canvas{
 		//$this->init();
 	}
 	
+	/**
+	*	Set the canvas width
+	*
+	*/
 	public function setWidth(int $width):self {
 		$this->width = $width;
 		
 		return $this;
 	}
+	
+	/**
+	*	Set the canvas height
+	*
+	*/
+	public function setHeight(int $height) : self {
+		$this->height = $height;
+		
+		return $this;
+	}
+	
+	
+	/**
+	*	Canvas size getters 
+	*
+	*
+	*/
 	public function getWidth():int{
 		return $this->width;
 	}
@@ -34,24 +54,37 @@ class Canvas{
 		return $this->height;
 	}
 	
-	public function setHeight(int $height) : self {
-		$this->height = $height;
-		
-		return $this;
-	}
 	
+	
+	/**
+	*	Set the background color canvas
+	*
+	*/
 	public function setBackgroundColor($color) : self{
 		$this->backgroundColor = $color;
 		
 		return $this;
 	}
 	
+	/**
+	*	addLayer
+	*
+	*	Add a layer to canvas
+	*
+	*/
 	public function addLayer(Layer $layer):self{
 		$layer->setCanvas($this);
 		$this->layers[] = $layer;
 		
 		return $this;
 	}
+	
+	/**
+	*	addLayers
+	*
+	*	Add a array layers to canvas
+	*
+	*/
 	public function addLayers(array $layers):self{
 		foreach ($layers as $layer){
 			$this->addLayer($layer);
@@ -59,6 +92,13 @@ class Canvas{
 		
 		return $this;
 	}
+	
+	/**
+	*	getLayers
+	*
+	*	Returns the attached layers
+	*
+	*/
 	public function getLayers(): array {
 		return $this->layers;
 	}
@@ -112,6 +152,7 @@ class Canvas{
 	*
 	*/
 	public function output($format = 'png'){
+		return $this->img->encode('png');
 		return $this->img->response('png');
 	}
 	
@@ -154,7 +195,6 @@ class Canvas{
 		
 		$width 	= 800;
 		$height = 450;
-		
 		
 		//$width 	= 350;
 		//$height = 65;
@@ -211,31 +251,10 @@ class Canvas{
 				$font->color('#969696');
 			    $font->align('center');
 			    //$font->valign('bottom');
-			    //$font->angle(45);
-			    
-			    
+			    //$font->angle(45); 
 			});
 		}
 		
-		/*
-		$this->img->text($texto, (800/2), (400/2), function($font) {
-		    $font->file('assets/arial.ttf');
-		    $font->size(44);
-		   // $font->color('#fdf6e3');
-		    $font->align('center');
-		    $font->valign('middle');
-		    //$font->angle(45);
-		});
-		*/
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

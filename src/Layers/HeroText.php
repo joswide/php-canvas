@@ -15,11 +15,11 @@ class HeroText extends Layer{
 	}	
 	
 	public function apply(){
-		$fontSize = 40;
+		$fontSize = 50;
 		
 		$img = $this->getCanvas()->getImage();
 		
-		$width = $this->getCanvas()->getWidth();
+		$width 	= $this->getCanvas()->getWidth();
 		$height	= $this->getCanvas()->getHeight();
 		
 		$texto 		= $this->text;
@@ -27,13 +27,18 @@ class HeroText extends Layer{
 		
 		$lineas = $this->fitText($texto, $fontSize, $width, $height);
 		
-		//echo '<pre>'; print_r($lineas); die();
+		$fittedText = $this->getFittedText($texto, $fontSize, $width, $height);
+		
+		$lineas 	= $fittedText->lines;
+		$fontSize 	= $fittedText->fontSize;
+		
+		//echo '<pre>'; print_r($fittedText); die();
 		
 		$fontfile = 'assets/OpenSans-Regular.ttf';
 		
 		$box = imagettfbbox($fontSize, 0 , $fontfile ,$texto );
 		
-		//echo '<pre>'; print_r($box); die();
+		//echo '<pre>'; print_r($box); //die();
 		
 		$lines = $lineas;
 		
@@ -42,10 +47,21 @@ class HeroText extends Layer{
 		
 		foreach($lines as $i => $line){
 			
-			$h = ($height/2) - ((count($lines) - $i) * $fontSize);
+			$lineBox = imagettfbbox($fontSize, 0 , $fontfile, $line );
+			$lineHeight = abs($lineBox[7]);
 			
-			$h = $hs + ((count($lines) - $i) * $fontSize);
-			$h = $hs + ($i + 1) * $fontSize;
+			//$lineHeight = 0;
+			
+			$h = ($height/2) - ((count($lines) - $i) * $lineHeight);
+			
+			$h = $hs + ((count($lines) - $i) * $lineHeight);
+			$h = $hs + ($i + 1) * $lineHeight;
+			
+			
+			$lineBox = imagettfbbox($fontSize, 0 , $fontfile ,$line );
+			//echo '<pre>'; print_r($line); print_r($lineBox);
+			
+			$h = $h + $box[7];
 			
 			$img->text($line, ($width/2), $h, function($font) use ($fontSize, $fontColor){
 				
@@ -53,11 +69,60 @@ class HeroText extends Layer{
 			    $font->size($fontSize);
 				$font->color($fontColor);
 			    $font->align('center');
-			    //$font->valign('bottom');
+			    $font->valign('middle');
 			});
 		}
+		
+		//exit();
 	}
 	
+	public function getFittedText($text, $fontSize, $width, $height){
+		$fontfile 	= 'assets/OpenSans-Regular.ttf';
+		$words 		= explode(' ', $text);
+		
+		//$box = imagettfbbox (44 ,0 , $fontfile , $texto );
+		
+		$lines = [];
+		$line = '';
+		
+		$h = 0;
+
+		foreach($words as $word){
+			$line .= $word . ' ';
+			$box = imagettfbbox ($fontSize, 0 , $fontfile, $line );
+			//$lines[] = $line;
+			
+			//echo '<pre>'; print_r($box);
+			
+			if ($box[4] >= $width){
+				$lines[] = $line;	
+				$line = '';
+				
+				$h = $h + abs($box[7]);
+			}
+		}
+		
+		$h = $h + abs($box[7]);
+		$lines[] = $line;
+		
+		if ($h > $height){
+			return $this->getFittedText($text, ($fontSize - 5), $width, $height);
+		}
+		
+		return (object) [
+			'fontSize'	=> $fontSize,
+			'lines'		=> $lines,
+		];
+		
+		return $lines;
+	}
+	
+   /**
+	*
+	*
+	*
+	*
+	*/
 	public function fitText($text, $fontSize, $width, $height){
 		$fontfile = 'assets/OpenSans-Regular.ttf';
 		

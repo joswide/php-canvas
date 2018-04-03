@@ -17,15 +17,19 @@ $canvas->setWidth(800)->setHeight(300);
 
 
 $backgroundColor = new Canvas\Layers\BackgroundColor([
-	'color' => 'rgb(34,89,200)'
+	'color' => '#3685b1'
 ]);
 
 $canvas->addLayer($backgroundColor);
 
-$placeholder = new Canvas\Layers\Placeholder([]);
+$placeholder = new Canvas\Layers\Placeholder([
+	'textColor'	=> '#fefefe'
+]);
 $canvas->addLayer($placeholder);
 
-$heroText = new Canvas\Layers\HeroText([]);
+$heroText = new Canvas\Layers\HeroText([
+	'color' => 'rgba(255,255,255,0.8)'
+]);
 $canvas->addLayer($heroText);
 
 $canvas->init();

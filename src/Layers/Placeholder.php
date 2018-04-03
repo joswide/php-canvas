@@ -8,10 +8,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 
 class Placeholder extends Layer{
-	public $text = 'Placeholder';
+	public $text 		= 'Placeholder';
+	public $textColor 	= '#000000';
 	
 	public function __construct($params = []){
 		$this->text = $params['text']??'Placeholder';
+		
+		$this->textColor = $params['textColor']??'#000000';
 	}	
 	
 	public function applyll(){
@@ -20,6 +23,8 @@ class Placeholder extends Layer{
 	
 	public function apply(){
 		$fontSize = 40;
+		
+		$textColor	= $this->textColor;
 		
 		$img = $this->getCanvas()->getImage();
 		
@@ -50,11 +55,11 @@ class Placeholder extends Layer{
 			$h = $hs + ((count($lines) - $i) * $fontSize);
 			$h = $hs + ($i + 1) * $fontSize;
 			
-			$img->text($line, ($width/2), $h, function($font) use ($fontSize){
+			$img->text($line, ($width/2), $h, function($font) use ($fontSize, $textColor){
 				
 			    $font->file('assets/OpenSans-Regular.ttf');
 			    $font->size($fontSize);
-				$font->color('#969696');
+				$font->color($textColor);
 			    $font->align('center');
 			    //$font->valign('bottom');
 			});
