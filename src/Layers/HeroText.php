@@ -9,9 +9,13 @@ class HeroText extends Layer{
 	public $text = 'Placeholder';
 	public $color = '#000';
 	
+	public $fontsFolder = '';
+	
 	public function __construct($params = []){
 		$this->text = $params['text']??'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 		$this->color = $params['color']??'#000';
+		
+		$this->fontsFolder = $params['fontsFolder'] ?? null;
 	}	
 	
 	public function apply(){
@@ -35,6 +39,9 @@ class HeroText extends Layer{
 		//echo '<pre>'; print_r($fittedText); die();
 		
 		$fontfile = 'assets/OpenSans-Regular.ttf';
+		$fontfile = $this->fontsFolder . 'OpenSans-Regular.ttf';
+		
+		//echo '<pre>'; print_r( $fontfile ); die();
 		
 		$box = imagettfbbox($fontSize, 0 , $fontfile ,$texto );
 		
@@ -63,9 +70,9 @@ class HeroText extends Layer{
 			
 			$h = $h + $box[7];
 			
-			$img->text($line, ($width/2), $h, function($font) use ($fontSize, $fontColor){
+			$img->text($line, ($width/2), $h, function($font) use ($fontSize, $fontColor, $fontfile){
 				
-			    $font->file('assets/OpenSans-Regular.ttf');
+			    $font->file($fontfile);
 			    $font->size($fontSize);
 				$font->color($fontColor);
 			    $font->align('center');
@@ -78,6 +85,7 @@ class HeroText extends Layer{
 	
 	public function getFittedText($text, $fontSize, $width, $height){
 		$fontfile 	= 'assets/OpenSans-Regular.ttf';
+		$fontfile = $this->fontsFolder . 'OpenSans-Regular.ttf';
 		$words 		= explode(' ', $text);
 		
 		//$box = imagettfbbox (44 ,0 , $fontfile , $texto );
@@ -125,6 +133,9 @@ class HeroText extends Layer{
 	*/
 	public function fitText($text, $fontSize, $width, $height){
 		$fontfile = 'assets/OpenSans-Regular.ttf';
+		$fontfile = $this->fontsFolder . 'OpenSans-Regular.ttf';
+		
+		//echo $fontfile;
 		
 		$words = explode(' ', $text);
 		

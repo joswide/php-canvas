@@ -15,8 +15,9 @@ class BlogPost extends \Joswide\Canvas\Design{
 		$backgroundColor	= $this->getParam('backgroundColor') ?? '#eee';
 		$titleColor			= $this->getParam('titleColor') ?? '#333';
 		
+		$fontsFolder		= $this->getParam('fontsFolder') ?? null;
 		
-		//echo "pasa";
+		//echo $fontsFolder;
 		
 		/** Add background layer */
 		$backgroundColorLayer = new Canvas\Layers\BackgroundColor([
@@ -31,7 +32,8 @@ class BlogPost extends \Joswide\Canvas\Design{
 		
 		$heroText = new Canvas\Layers\HeroText([
 			'color' => $titleColor,
-			'text'	=> $this->getParam('title')
+			'text'	=> $this->getParam('title'),
+			'fontsFolder'	=> $fontsFolder
 		]);
 		$this->getCanvas()->addLayer($heroText);
 		
